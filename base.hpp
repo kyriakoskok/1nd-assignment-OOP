@@ -11,10 +11,10 @@ class Pomodoro
 {
     public:
 
-    void startSession( Pomodoro& c);
-    void startBreak(Pomodoro& c);
-    void endSession(Pomodoro& c,int x);
-    void getStatistics( Pomodoro& c);
+    void startSession( void);
+    void startBreak(void);
+    void endSession(int x);
+    void getStatistics( void);
     void Time_settings( Pomodoro& c);
 
     void set_WorkDuration(int x);
@@ -45,9 +45,9 @@ class Pomodoro
 void basemenu (void);
 //Βασικό Μενού
 
-void Statistics_menu (Pomodoro& c);
+void Statistics_menu (int sessionsCompleted,int totalWorkTime);
 
 //Εμφάνηση στατηστικών
-void Time_settingsmenu (Pomodoro& c);
+void Time_settingsmenu ( int WorkDuration, int BreakDuration);
 
 void basemenu_choices(Pomodoro& c);

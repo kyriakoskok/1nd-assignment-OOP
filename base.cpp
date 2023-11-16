@@ -14,13 +14,13 @@ void basemenu_choices(Pomodoro& c)
         switch (x)
         {
         case '1':
-            c.startSession(c);
+            c.startSession();
             break;
         case '2':
-            c.startBreak(c);
+            c.startBreak();
             break;
         case '3':
-            c.getStatistics(c);
+            c.getStatistics();
             break;    
         case '4':
             c.Time_settings(c);
@@ -41,7 +41,7 @@ void basemenu_choices(Pomodoro& c)
 
 //functions
 
-void Pomodoro::startSession(Pomodoro& c)
+void Pomodoro::startSession(void)
 {
     char x = '0';
     while ((x!= ' ')&&( x != 'q'))
@@ -58,7 +58,7 @@ void Pomodoro::startSession(Pomodoro& c)
 
     char userInput;
     bool timerRunning = true;
-    int remainingTime = c.WorkDuration; 
+    int remainingTime = this->WorkDuration; 
 
     while (remainingTime > 0) {
         if (timerRunning) {
@@ -115,7 +115,7 @@ void Pomodoro::startSession(Pomodoro& c)
         
         cout <<"Do you want a break? Press spase..."<<endl;
         x = _getch();
-        if (x==' ') c.startBreak(c);
+        if (x==' ') this->startBreak();
         else cout << "ok :)"<<endl;
     }
     else if (x=='q')
@@ -124,7 +124,7 @@ void Pomodoro::startSession(Pomodoro& c)
     }
 }
 
-void Pomodoro::startBreak(Pomodoro& c)
+void Pomodoro::startBreak()
 {
     char x = '0';
     while ((x!= ' ')&&( x != 'q'))
@@ -140,7 +140,7 @@ void Pomodoro::startBreak(Pomodoro& c)
 //-------------------------------------------------------        
     char userInput;
     bool timerRunning = true;
-    int remainingTime = c.BreakDuration; 
+    int remainingTime = this->BreakDuration; 
 
     while (remainingTime > 0) {
         if (timerRunning) {
@@ -182,7 +182,7 @@ void Pomodoro::startBreak(Pomodoro& c)
        
         cout <<"Do you want one more Pomodoro? Press spase..."<<endl;
         x = _getch();
-        if (x==' ') c.startSession(c);
+        if (x==' ') this->startSession();
         else cout << "ok :)"<<endl;
     }
     else if (x=='q')
@@ -192,15 +192,15 @@ void Pomodoro::startBreak(Pomodoro& c)
 
 }
 
-void Pomodoro::endSession(Pomodoro& c,int x)
+void Pomodoro::endSession(int x)
 {
-    c.sessionsCompleted ++;
-    c.totalWorkTime += x;
+    this->sessionsCompleted ++;
+    this->totalWorkTime += x;
 }
 
-void Pomodoro::getStatistics( Pomodoro& c )
+void Pomodoro::getStatistics( void )
 {
-    Statistics_menu(c);
+    Statistics_menu(this->sessionsCompleted, this->totalWorkTime);
 }
 
 void Pomodoro::Time_settings( Pomodoro& c)
@@ -211,7 +211,7 @@ void Pomodoro::Time_settings( Pomodoro& c)
     while (x!='4')
     {
         system("cls"); // Clear the console screen
-        Time_settingsmenu(c);
+        Time_settingsmenu(this->WorkDuration, this->BreakDuration);
         x = _getch();
         switch (x)
         {
@@ -225,7 +225,7 @@ void Pomodoro::Time_settings( Pomodoro& c)
         }
         else
         {
-            c.WorkDuration = i;
+            this->WorkDuration = i;
             cout << "ok" << endl;
         }
         
@@ -240,13 +240,13 @@ void Pomodoro::Time_settings( Pomodoro& c)
         }
         else
         {
-            c.BreakDuration = i;
+            this->BreakDuration = i;
             cout << "ok" << endl;
         }
         break;
        case '3':
-        c.WorkDuration = 1500;
-        c.BreakDuration = 300;
+        this->WorkDuration = 1500;
+        this->BreakDuration = 300;
         cout << "The settings have reset" << endl;
         break;
        case '4':
@@ -327,15 +327,15 @@ void basemenu (void)
 
 }
 
-void Time_settingsmenu ( Pomodoro& c)
+void Time_settingsmenu ( int WorkDuration, int BreakDuration)
 {
     
 
     cout << "+----------------------------+" << endl;
     cout << "|     Time settings menu     |" << endl;
     cout << "+----------------------------+" << endl;
-    cout << "|  WorkDuration:"<<c.get_WorkDuration() <<"\t  sec|" << endl;
-    cout << "|  BreakDuration:"<<c.get_BreakDuration()<<"\t  sec|"  << endl;
+    cout << "|  WorkDuration:"<<WorkDuration <<"\t  sec|" << endl;
+    cout << "|  BreakDuration:"<<BreakDuration<<"\t  sec|"  << endl;
     cout << "|                            |" << endl;
     cout << "+----------------------------+" << endl;
     cout << "| 1.Change WorkDuration time |" << endl;
@@ -347,14 +347,14 @@ void Time_settingsmenu ( Pomodoro& c)
 
 }
 
-void Statistics_menu (Pomodoro& c)
+void Statistics_menu (int sessionsCompleted,int totalWorkTime)
 {
     system("cls"); // Clear the console screen
     cout << "+----------------------------+" << endl;
     cout << "|     Statistics menu        |" << endl;
     cout << "+----------------------------+" << endl;
-    cout << "|  sessionsCompleted:"<<c.get_sessionsCompleted() <<"\t     |" << endl;
-    cout << "|  totalWorkTime:"<<c.get_totalWorkTime()<<"\t  sec|"  << endl;
+    cout << "|  sessionsCompleted:"<<sessionsCompleted <<"\t     |" << endl;
+    cout << "|  totalWorkTime:"<<totalWorkTime<<"\t  sec|"  << endl;
     cout << "+----------------------------+" << endl;
     cout << "press something to go back...";
     _getch();
