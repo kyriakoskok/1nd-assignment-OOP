@@ -5,7 +5,7 @@
 
 
 
-
+//functions
 
 void Pomodoro::startSession(Pomodoro& c)
 {
@@ -228,7 +228,7 @@ void Pomodoro::Time_settings( Pomodoro& c)
     
 }
 
-
+//set-add
 
 void Pomodoro::set_WorkDuration(int x)
 {
@@ -250,7 +250,7 @@ void Pomodoro::add_totalWorkTime(int x)
     if (x>0)totalWorkTime += x;
 }
 
-
+//get
 
 int Pomodoro::get_WorkDuration(void)
 {
@@ -274,7 +274,7 @@ int Pomodoro::get_totalWorkTime(void)
 
 
 
-
+//menus
 
 void basemenu (void)
 {
