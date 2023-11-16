@@ -50,4 +50,4 @@ void Statistics_menu (Pomodoro& c);
 //Εμφάνηση στατηστικών
 void Time_settingsmenu (Pomodoro& c);
 
-
+void basemenu_choices(Pomodoro& c);

@@ -1,7 +1,41 @@
 #include "base.hpp"
 
 
+//Επιλογές 
 
+void basemenu_choices(Pomodoro& c)
+{
+    char  x;
+    while (x!='5')
+    {
+        system("cls"); // Clear the console screen
+        basemenu ();
+        x = _getch();
+        switch (x)
+        {
+        case '1':
+            c.startSession(c);
+            break;
+        case '2':
+            c.startBreak(c);
+            break;
+        case '3':
+            c.getStatistics(c);
+            break;    
+        case '4':
+            c.Time_settings(c);
+            break;
+        case '5':
+            cout << "Goodbye :)" ;
+            break; 
+        default:
+            cout << "Wrong answer" << endl ;
+            break;
+        }
+        
+
+    }
+}
 
 
 
