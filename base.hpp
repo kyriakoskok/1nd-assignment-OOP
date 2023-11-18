@@ -34,7 +34,10 @@ class Pomodoro
 
 
     Pomodoro():name("Guest"),WorkDuration(1500),BreakDuration(300),sessionsCompleted(0),totalWorkTime(0){};
-    Pomodoro(std::string name):name(name),WorkDuration(1500),BreakDuration(300),sessionsCompleted(0),totalWorkTime(0){};
+    Pomodoro(std::string name):name(name),WorkDuration(1500),BreakDuration(300),sessionsCompleted(0),totalWorkTime(0)
+    {
+
+    };
 
     
     private:
@@ -60,6 +63,12 @@ void basemenu_choices(Pomodoro& c);
 void users_menu_choices(void);
 
 
+
+
 std::string get_name(void);
 
+bool check_name(std::string name);
 
+
+//files
+queue<std::string> get_names(void);

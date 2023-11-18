@@ -1,5 +1,4 @@
 #include "base.hpp"
-#include "files.hpp"
 
 
 
@@ -380,6 +379,7 @@ void users_menu_choices(void)
             break;}
         case '2':
             {std::string name;
+            
             name =get_name();
             Pomodoro c2(name);
             basemenu_choices(c2);
@@ -430,13 +430,52 @@ void basemenu_choices(Pomodoro& c)
 std::string get_name(void)
 {
     std::string name;
-    cout << "Name:";
-    cin >> name;
-    while (name.size()>20)
+
+    while (true)
     {
-        cout << "The name must be a maximum of 20 characters" << endl;
-        cin >> name ;
+        cout << "Name:";
+        cin >> name;
+        if(name.size()>20){cout << "The name must be a maximum of 20 characters" << endl;}
+        else if(check_name(name)==true){cout << "This name already exists" << endl;}
+        else break;
     }
+    
     return name;
 
+}
+
+bool check_name(std::string name)
+{
+    queue<std::string> names;
+    names = get_names();
+    while(!names.empty())
+    {
+        if (name==names.front())return true;
+        names.pop();
+    }
+    return false;
+
+}
+
+
+
+//files
+queue<std::string> get_names(void)
+{
+    queue<std::string> names;
+    ifstream file("DATA.txt");
+    if(!file)
+    {
+        return names;
+    }
+
+    std::string name;
+    while (!file.eof())
+    {
+        getline(file,name);
+        names.push(name);
+        getline(file,name);
+    }
+    file.close();
+    return names;
 }
