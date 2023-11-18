@@ -14,6 +14,11 @@ class Pomodoro
 {
     public:
 
+    Pomodoro():name("Guest"),WorkDuration(1500),BreakDuration(300),sessionsCompleted(0),totalWorkTime(0){};
+    Pomodoro(std::string name);
+
+
+
     void startSession( void);
     void startBreak(void);
     void endSession(int x);
@@ -32,12 +37,6 @@ class Pomodoro
     int get_sessionsCompleted(void);
     int get_totalWorkTime(void);
 
-
-    Pomodoro():name("Guest"),WorkDuration(1500),BreakDuration(300),sessionsCompleted(0),totalWorkTime(0){};
-    Pomodoro(std::string name):name(name),WorkDuration(1500),BreakDuration(300),sessionsCompleted(0),totalWorkTime(0)
-    {
-
-    };
 
     
     private:

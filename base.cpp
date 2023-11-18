@@ -1,6 +1,15 @@
 #include "base.hpp"
 
-
+//
+Pomodoro::Pomodoro(std::string name):name(name),WorkDuration(1500),BreakDuration(300),sessionsCompleted(0),totalWorkTime(0)
+    {
+        ofstream file;
+        file.open("DATA.txt",ios::app);
+        file <<endl << name << endl;
+        file << WorkDuration << " " << BreakDuration << " " << sessionsCompleted << " " << totalWorkTime;
+        file.flush();
+        file.close();
+    };
 
 //functions
 
@@ -426,7 +435,7 @@ void basemenu_choices(Pomodoro& c)
 
 
 
-
+//string names
 std::string get_name(void)
 {
     std::string name;
@@ -476,6 +485,7 @@ queue<std::string> get_names(void)
         names.push(name);
         getline(file,name);
     }
+    
     file.close();
     return names;
 }
