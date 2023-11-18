@@ -1,5 +1,5 @@
 #include "base.hpp"
-
+#include "files.hpp"
 
 
 
@@ -164,7 +164,7 @@ void Pomodoro::endSession(int x)
 
 void Pomodoro::getStatistics( void )
 {
-    Statistics_menu(this->sessionsCompleted, this->totalWorkTime);
+    Statistics_menu(this->sessionsCompleted, this->totalWorkTime, this->name);
 }
 
 void Pomodoro::Time_settings( void)
@@ -227,6 +227,13 @@ void Pomodoro::Time_settings( void)
 }
 
 //set-add
+void Pomodoro::set_name (std::string name)
+{
+    if (name.length()>0&&name.length()<20)
+    this->name=name;
+    else if (name.length()>20)
+    cout<<"The name must be less than 20 characters" <<endl;
+}
 
 void Pomodoro::set_WorkDuration(int x)
 {
@@ -249,6 +256,10 @@ void Pomodoro::add_totalWorkTime(int x)
 }
 
 //get
+std::string Pomodoro::get_name (void)
+{
+    return name;
+}
 
 int Pomodoro::get_WorkDuration(void)
 {
@@ -273,6 +284,25 @@ int Pomodoro::get_totalWorkTime(void)
 
 
 //menus
+void users_menu (queue<std::string> names)
+{
+    int j=3;
+    //int i=name.length();
+    cout << "+-------------------------------+" << endl;
+    cout << "|        Users menu             |" << endl;
+    cout << "+-------------------------------+" << endl;
+    cout << "| 1.Guest                       |" << endl;
+    cout << "| 2.New User                    |" << endl;
+    while(!names.empty())
+    {
+    cout << "| " << j << "." << names.front() << endl;
+    names.pop();
+    j++;
+    }
+    
+    cout << "| q.exit                        |" << endl;
+    cout << "+-------------------------------+" << endl;
+}
 
 void basemenu (void)
 {
@@ -311,21 +341,54 @@ void Time_settingsmenu ( int WorkDuration, int BreakDuration)
 
 }
 
-void Statistics_menu (int sessionsCompleted,int totalWorkTime)
+void Statistics_menu (int sessionsCompleted,int totalWorkTime,std::string name)
 {
+    int i=name.length();
+
     system("cls"); // Clear the console screen
-    cout << "+----------------------------+" << endl;
-    cout << "|     Statistics menu        |" << endl;
-    cout << "+----------------------------+" << endl;
-    cout << "|  sessionsCompleted:"<<sessionsCompleted <<"\t     |" << endl;
-    cout << "|  totalWorkTime:"<<totalWorkTime<<"\t  sec|"  << endl;
-    cout << "+----------------------------+" << endl;
+    cout << "+-------------------------------+" << endl;
+    cout << "|     Statistics menu\t\t|" << endl;
+    cout << "+-------------------------------+" << endl;
+    cout << "|  user:"<<name;
+    if(i<8){cout<<"\t\t\t|"<< endl;}
+    else if(i<16){cout<<"\t\t|"<< endl;}
+    else if(i<20){cout<<"\t|"<< endl;}
+    else {cout<<endl;}
+    cout << "|  sessionsCompleted:"<<sessionsCompleted <<"\t\t|" << endl;
+    cout << "|  totalWorkTime:"<<totalWorkTime<<"\t    sec\t|"  << endl;
+    cout << "+-------------------------------+" << endl;
     cout << "press something to go back...";
     _getch();
 }
 
 
 //Επιλογές 
+void users_menu_choices(void)
+{
+    char  x;
+    queue<std::string> names = get_names();
+    while (x!='q'&&x!='Q')
+    {
+        system("cls"); // Clear the console screen
+        users_menu(names);
+        x = _getch();
+        switch (x)
+        {
+        case '1':
+            {Pomodoro c1;
+            basemenu_choices(c1);
+            break;}
+        case '2':
+            {std::string name;
+            name =get_name();
+            Pomodoro c2(name);
+            basemenu_choices(c2);
+            break;}
+        default:
+            break;
+        }
+    }
+}
 
 void basemenu_choices(Pomodoro& c)
 {
@@ -361,3 +424,19 @@ void basemenu_choices(Pomodoro& c)
     }
 }
 
+
+
+
+std::string get_name(void)
+{
+    std::string name;
+    cout << "Name:";
+    cin >> name;
+    while (name.size()>20)
+    {
+        cout << "The name must be a maximum of 20 characters" << endl;
+        cin >> name ;
+    }
+    return name;
+
+}
