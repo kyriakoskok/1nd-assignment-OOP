@@ -1,42 +1,6 @@
 #include "base.hpp"
 
 
-//Επιλογές 
-
-void basemenu_choices(Pomodoro& c)
-{
-    char  x;
-    while (x!='5')
-    {
-        system("cls"); // Clear the console screen
-        basemenu ();
-        x = _getch();
-        switch (x)
-        {
-        case '1':
-            c.startSession();
-            break;
-        case '2':
-            c.startBreak();
-            break;
-        case '3':
-            c.getStatistics();
-            break;    
-        case '4':
-            c.Time_settings(c);
-            break;
-        case '5':
-            cout << "Goodbye :)" ;
-            break; 
-        default:
-            cout << "Wrong answer" << endl ;
-            break;
-        }
-        
-
-    }
-}
-
 
 
 //functions
@@ -203,9 +167,10 @@ void Pomodoro::getStatistics( void )
     Statistics_menu(this->sessionsCompleted, this->totalWorkTime);
 }
 
-void Pomodoro::Time_settings( Pomodoro& c)
+void Pomodoro::Time_settings( void)
 {
 
+    
     int i;
     char  x=0;
     while (x!='4')
@@ -256,8 +221,7 @@ void Pomodoro::Time_settings( Pomodoro& c)
         cout << "Wrong answer" << endl ;
         break;
        }
-    }
-    
+    };
 
     
 }
@@ -360,4 +324,40 @@ void Statistics_menu (int sessionsCompleted,int totalWorkTime)
     _getch();
 }
 
+
+//Επιλογές 
+
+void basemenu_choices(Pomodoro& c)
+{
+    char  x;
+    while (x!='5')
+    {
+        system("cls"); // Clear the console screen
+        basemenu ();
+        x = _getch();
+        switch (x)
+        {
+        case '1':
+            c.startSession();
+            break;
+        case '2':
+            c.startBreak();
+            break;
+        case '3':
+            c.getStatistics();
+            break;    
+        case '4':
+            c.Time_settings();
+            break;
+        case '5':
+            cout << "Goodbye :)" ;
+            break; 
+        default:
+            cout << "Wrong answer" << endl ;
+            break;
+        }
+        
+
+    }
+}
 

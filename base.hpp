@@ -7,6 +7,7 @@
 using namespace std;
 
 
+//Βασική κλάση
 class Pomodoro 
 {
     public:
@@ -15,7 +16,7 @@ class Pomodoro
     void startBreak(void);
     void endSession(int x);
     void getStatistics( void);
-    void Time_settings( Pomodoro& c);
+    void Time_settings( void);
 
     void set_WorkDuration(int x);
     void set_BreakDuration(int x);
@@ -41,13 +42,12 @@ class Pomodoro
     
 
 };
-//Βασική κλάση
+
+//Μενού
 void basemenu (void);
-//Βασικό Μενού
-
 void Statistics_menu (int sessionsCompleted,int totalWorkTime);
-
-//Εμφάνηση στατηστικών
 void Time_settingsmenu ( int WorkDuration, int BreakDuration);
 
+//choices
 void basemenu_choices(Pomodoro& c);
+
