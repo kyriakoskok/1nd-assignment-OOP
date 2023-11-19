@@ -610,10 +610,10 @@ queue<std::string> get_names(void)
 
     std::string name;
 
-    while (!file.eof())
+    while (getline(file,name))
     {
-        getline(file,name);
-        if(name.empty())getline(file,name);
+        
+        if(name.empty()||name=="/n")getline(file,name);
         names.push(name);
         getline(file,name);
     }
@@ -639,24 +639,16 @@ void delyte_user(std::string name)
 {
     ifstream file("DATA.txt");
     queue<std::string> names;
-    queue<int> WorkDurations;
-    queue<int> BreakDurations;
-    queue<int> sessionsCompleteds;
-    queue<int> totalWorkTimes;
+    queue<std::string> info;
 
     std::string str;
     int i;
     while(getline(file,str))
     {
+        
         names.push(str);
-        file >> i;
-        WorkDurations.push(i);
-        file >> i;
-        BreakDurations.push(i);
-        file >> i;
-        sessionsCompleteds.push(i);
-        file >> i;
-        totalWorkTimes.push(i);
+        getline(file,str);
+        info.push(str);
     }
     file.close();
     ofstream file2("DATA.txt",ios::trunc|ios::out);
@@ -665,13 +657,10 @@ void delyte_user(std::string name)
     {
         if(names.front()!=name)
         {
-            file2 << names.front() << endl << WorkDurations.front() << " " << BreakDurations.front() << " " << sessionsCompleteds.front() << " " << totalWorkTimes.front() << "                                    " ;
+            file2 << names.front() << endl << info.front() << endl;
         }
         names.pop();
-        WorkDurations.pop();
-        BreakDurations.pop();
-        sessionsCompleteds.pop();
-        totalWorkTimes.pop();
+        info.pop();
     }
     file2.close();
     
