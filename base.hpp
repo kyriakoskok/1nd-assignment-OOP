@@ -16,6 +16,7 @@ class Pomodoro
 
     Pomodoro():name("Guest"),WorkDuration(1500),BreakDuration(300),sessionsCompleted(0),totalWorkTime(0){};
     Pomodoro(std::string name);
+    Pomodoro(int x);
 
 
 
@@ -54,20 +55,24 @@ class Pomodoro
 //Μενού
 void users_menu (queue<std::string> names);
 void basemenu (void);
+void users_basemenu (void);
 void Statistics_menu (int sessionsCompleted,int totalWorkTime,std::string name);
 void Time_settingsmenu ( int WorkDuration, int BreakDuration);
 
 //choices
 void basemenu_choices(Pomodoro& c);
 void users_menu_choices(void);
+void Guest_basemenu_choices(Pomodoro& c);
 
 
 
 
 std::string get_name(void);
-
 bool check_name(std::string name);
+int check_number_of_users(void);
 
 
 //files
 queue<std::string> get_names(void);
+void set_information_on_file(std::string name,int WorkDuration,int BreakDuration,int sessionsCompleted, int totalWorkTime);
+void delyte_user(std::string name);

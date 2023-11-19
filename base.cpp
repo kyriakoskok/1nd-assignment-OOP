@@ -6,10 +6,38 @@ Pomodoro::Pomodoro(std::string name):name(name),WorkDuration(1500),BreakDuration
         ofstream file;
         file.open("DATA.txt",ios::app);
         file <<endl << name << endl;
-        file << WorkDuration << " " << BreakDuration << " " << sessionsCompleted << " " << totalWorkTime;
+        file << WorkDuration << " " << BreakDuration << " " << sessionsCompleted << " " << totalWorkTime<< "                    ";
         file.flush();
         file.close();
     };
+
+Pomodoro::Pomodoro(int x)
+{
+    ifstream file("DATA.txt");
+
+    std::string name ;
+    int WorkDuration ;
+    int BreakDuration ;
+    int sessionsCompleted ;
+    int totalWorkTime ;
+
+    for(int i=1;i<=x;i++)
+    {
+        file >> name;
+        file >> WorkDuration;
+        file >> BreakDuration;
+        file >> sessionsCompleted;
+        file >> totalWorkTime;
+    }
+    this->name=name;
+    this->WorkDuration=WorkDuration;
+    this->BreakDuration=BreakDuration;
+    this->sessionsCompleted=sessionsCompleted;
+    this->totalWorkTime=totalWorkTime;
+    file.close();
+}
+
+
 
 //functions
 
@@ -198,7 +226,7 @@ void Pomodoro::Time_settings( void)
         }
         else
         {
-            this->WorkDuration = i;
+            this->set_WorkDuration(i);
             cout << "ok" << endl;
         }
         
@@ -213,13 +241,13 @@ void Pomodoro::Time_settings( void)
         }
         else
         {
-            this->BreakDuration = i;
+            this->set_BreakDuration(i);
             cout << "ok" << endl;
         }
         break;
        case '3':
-        this->WorkDuration = 1500;
-        this->BreakDuration = 300;
+        this->set_WorkDuration(1500);
+        this->set_BreakDuration(300);
         cout << "The settings have reset" << endl;
         break;
        case '4':
@@ -245,22 +273,39 @@ void Pomodoro::set_name (std::string name)
 
 void Pomodoro::set_WorkDuration(int x)
 {
-    if (x>0)WorkDuration=x;
+    if (x>0)
+    {
+        WorkDuration=x;
+        if(name!="Guest")
+        set_information_on_file( name, WorkDuration, BreakDuration, sessionsCompleted, totalWorkTime);
+    }
 }
 
 void Pomodoro::set_BreakDuration(int x)
 {
-    if (x>0)BreakDuration=x;
+    if (x>0)
+    {
+        BreakDuration=x;
+        if(name!="Guest")
+        set_information_on_file( name, WorkDuration, BreakDuration, sessionsCompleted, totalWorkTime);
+    }
 }
 
 void Pomodoro::add_sessionsCompleted(void)
 {
     sessionsCompleted++;
+    if(name!="Guest")
+    set_information_on_file( name, WorkDuration, BreakDuration, sessionsCompleted, totalWorkTime);
 }
 
 void Pomodoro::add_totalWorkTime(int x)
 {
-    if (x>0)totalWorkTime += x;
+    if (x>0)
+    {
+        totalWorkTime += x;
+        if(name!="Guest")
+        set_information_on_file( name, WorkDuration, BreakDuration, sessionsCompleted, totalWorkTime);
+    }
 }
 
 //get
@@ -329,6 +374,24 @@ void basemenu (void)
 
 }
 
+void users_basemenu (void)
+{
+    
+
+    cout << "+----------------+" << endl;
+    cout << "|      MENU      |" << endl;
+    cout << "+----------------+" << endl;
+    cout << "| 1.WorkDuration |" << endl;
+    cout << "| 2.BreakDuration|" << endl;
+    cout << "| 3.Statistics   |" << endl;
+    cout << "| 4.Time settings|" << endl;
+    cout << "| 5.Exit         |" << endl;
+    cout << "| 6.Delyte user  |" << endl;
+    cout << "+----------------+" << endl;
+
+
+}
+
 void Time_settingsmenu ( int WorkDuration, int BreakDuration)
 {
     
@@ -373,38 +436,100 @@ void Statistics_menu (int sessionsCompleted,int totalWorkTime,std::string name)
 //Επιλογές 
 void users_menu_choices(void)
 {
-    char  x;
-    queue<std::string> names = get_names();
-    while (x!='q'&&x!='Q')
+    std::string  x;
+    int X;
+    queue<std::string> names ;
+    while (x!="q"&&x!="Q")
     {
         system("cls"); // Clear the console screen
+        names= get_names();
         users_menu(names);
-        x = _getch();
-        switch (x)
+        cin >> x;
+
+        try 
         {
-        case '1':
-            {Pomodoro c1;
-            basemenu_choices(c1);
-            break;}
-        case '2':
-            {std::string name;
-            
-            name =get_name();
-            Pomodoro c2(name);
-            basemenu_choices(c2);
-            break;}
-        default:
-            break;
+            X=std::stoi(x);
         }
+        catch (const std::invalid_argument& a)
+        {
+            X=0;//Λαθος απάντηση.
+        }
+        catch (const std::out_of_range& a)
+        {
+            X=0;//Πολύ μεγάλος αριθμός.
+        }
+
+
+        if(X==1)
+        {
+            Pomodoro c;
+            Guest_basemenu_choices(c); 
+        }
+        else if(X==2)
+        {
+            std::string name;
+            name =get_name();
+            Pomodoro c(name);
+            basemenu_choices(c);
+        }
+        else if((X>2)&&(X<=check_number_of_users()+2))
+        {
+            Pomodoro c(X-2); 
+            basemenu_choices(c);
+        }
+        else if (x!="q"&&x!="Q")
+        {
+            cout << "Wrong answer" << endl ;
+        }
+        
     }
 }
 
 void basemenu_choices(Pomodoro& c)
 {
     char  x;
+    while (x!='5'&&x!='6')
+    {
+        system("cls"); // Clear the console screen
+        
+        users_basemenu ();
+        x = _getch();
+        switch (x)
+        {
+        case '1':
+            c.startSession();
+            break;
+        case '2':
+            c.startBreak();
+            break;
+        case '3':
+            c.getStatistics();
+            break;    
+        case '4':
+            c.Time_settings();
+            break;
+        case '5':
+            cout << "Goodbye :)" ;
+            break; 
+        case '6':
+            delyte_user(c.get_name());
+            break;
+        default:
+            cout << "Wrong answer" << endl ;
+            break;
+        }
+        
+
+    }
+}
+
+void Guest_basemenu_choices(Pomodoro& c)
+{
+    char  x;
     while (x!='5')
     {
         system("cls"); // Clear the console screen
+        
         basemenu ();
         x = _getch();
         switch (x)
@@ -466,7 +591,12 @@ bool check_name(std::string name)
 
 }
 
-
+int check_number_of_users(void)
+{
+   queue<std::string> names; 
+   names = get_names();
+   return names.size();
+}
 
 //files
 queue<std::string> get_names(void)
@@ -479,9 +609,11 @@ queue<std::string> get_names(void)
     }
 
     std::string name;
+
     while (!file.eof())
     {
         getline(file,name);
+        if(name.empty())getline(file,name);
         names.push(name);
         getline(file,name);
     }
@@ -489,3 +621,60 @@ queue<std::string> get_names(void)
     file.close();
     return names;
 }
+
+void set_information_on_file(std::string name,int WorkDuration,int BreakDuration,int sessionsCompleted, int totalWorkTime)
+{
+    fstream file("DATA.txt",std::ios::in | std::ios::out);
+    std::string str;
+    getline(file,str);
+    while (str!=name)
+    {
+        getline(file,str);
+    }
+    file << WorkDuration << " " << BreakDuration << " " << sessionsCompleted << " " << totalWorkTime << "                         ";
+    file.close();
+}
+
+void delyte_user(std::string name)
+{
+    ifstream file("DATA.txt");
+    queue<std::string> names;
+    queue<int> WorkDurations;
+    queue<int> BreakDurations;
+    queue<int> sessionsCompleteds;
+    queue<int> totalWorkTimes;
+
+    std::string str;
+    int i;
+    while(getline(file,str))
+    {
+        names.push(str);
+        file >> i;
+        WorkDurations.push(i);
+        file >> i;
+        BreakDurations.push(i);
+        file >> i;
+        sessionsCompleteds.push(i);
+        file >> i;
+        totalWorkTimes.push(i);
+    }
+    file.close();
+    ofstream file2("DATA.txt",ios::trunc|ios::out);
+
+    while (!names.empty())
+    {
+        if(names.front()!=name)
+        {
+            file2 << names.front() << endl << WorkDurations.front() << " " << BreakDurations.front() << " " << sessionsCompleteds.front() << " " << totalWorkTimes.front() << "                                    " ;
+        }
+        names.pop();
+        WorkDurations.pop();
+        BreakDurations.pop();
+        sessionsCompleteds.pop();
+        totalWorkTimes.pop();
+    }
+    file2.close();
+    
+
+}
+
