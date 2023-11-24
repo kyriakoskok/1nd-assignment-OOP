@@ -13,7 +13,6 @@ TEST_CASE("set_WorkDuration")
     REQUIRE(c1.get_WorkDuration()==3);
 }
 
-
 TEST_CASE("get_BreakDuration")
 {
     Pomodoro c1;

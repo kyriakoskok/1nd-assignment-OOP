@@ -38,25 +38,18 @@ Pomodoro::Pomodoro(int x)//για το άνοιγμα κάποιου ήδη υπ
     file.close();
 }
 
-
-
 //functions
-
 void Pomodoro::startSession(void)
 {
     char x = '0';
     while ((x!= ' ')&&( x != 'q'))
     {
-        cout << "press spase to start the pomodoro or press q to exit" << endl;
-        x = _getch();
-        
+        cout << "press space to start the pomodoro or press q to exit" << endl;
+        x = _getch(); 
     }
     if (x==' ')
     {
-
 //------------------------------------------------------- μετριτής χρόνου με λειτουργία stop και exit        
-        
-
     char userInput;
     bool timerRunning = true;
     int remainingTime = this->WorkDuration; 
@@ -91,11 +84,7 @@ void Pomodoro::startSession(void)
     } else {
         cout << "Timer stopped." << endl;
     }
-        
-
-
 //------------------------------------------------------------------------
-        
         if (remainingTime==0)//αποθήκευση στατηστικών
         {
             add_sessionsCompleted();
@@ -107,8 +96,7 @@ void Pomodoro::startSession(void)
             add_totalWorkTime(get_WorkDuration()-remainingTime);
         }
         
-        
-        cout <<"Do you want a break? Press spase..."<<endl;
+        cout <<"Do you want a break? Press space..."<<endl;
         x = _getch();
         if (x==' ') this->startBreak();
         else cout << "ok :)"<<endl;
@@ -124,14 +112,11 @@ void Pomodoro::startBreak()
     char x = '0';
     while ((x!= ' ')&&( x != 'q'))
     {
-        cout << "press spase to start the break time or press q to exit" << endl;
+        cout << "press space to start the break time or press q to exit" << endl;
         x = _getch();
     }
     if (x==' ')
     {
-        
-
-
 //-------------------------------------------------------        μετριτής χρόνου με λειτουργία stop και exit
     char userInput;
     bool timerRunning = true;
@@ -167,15 +152,13 @@ void Pomodoro::startBreak()
     } else {
         cout << "Timer stopped." << endl;
     }
-
-
 //------------------------------------------------------------------
         if (remainingTime!=0)
         {
             cout << "ok :)"<<endl;
         }
        
-        cout <<"Do you want one more Pomodoro? Press spase..."<<endl;
+        cout <<"Do you want one more Pomodoro? Press space..."<<endl;
         x = _getch();
         if (x==' ') this->startSession();
         else cout << "ok :)"<<endl;
@@ -184,7 +167,6 @@ void Pomodoro::startBreak()
     {
         cout << "ok :)"<<endl;
     }
-
 }
 
 void Pomodoro::endSession(int x)//αποθήκευση στατηστικών
@@ -200,8 +182,6 @@ void Pomodoro::getStatistics( void )//εξαγωγή informasion
 
 void Pomodoro::Time_settings( void)//ρυθμίσεις χρόνου
 {
-
-    
     int i;
     char  x=0;
     while (x!='4')
@@ -253,8 +233,6 @@ void Pomodoro::Time_settings( void)//ρυθμίσεις χρόνου
         break;
        }
     };
-
-    
 }
 
 //set-add
@@ -329,8 +307,6 @@ int Pomodoro::get_totalWorkTime(void)
     return totalWorkTime;
 }
 
-
-
 //menus
 void users_menu (queue<std::string> names)
 {
@@ -347,15 +323,12 @@ void users_menu (queue<std::string> names)
     names.pop();
     j++;
     }
-    
     cout << "| q.exit                        |" << endl;
     cout << "+-------------------------------+" << endl;
 }
 
 void basemenu (void)
 {
-    
-
     cout << "+----------------+" << endl;
     cout << "|      MENU      |" << endl;
     cout << "+----------------+" << endl;
@@ -365,14 +338,10 @@ void basemenu (void)
     cout << "| 4.Time settings|" << endl;
     cout << "| 5.Exit         |" << endl;
     cout << "+----------------+" << endl;
-
-
 }
 
 void users_basemenu (void)
 {
-    
-
     cout << "+----------------+" << endl;
     cout << "|      MENU      |" << endl;
     cout << "+----------------+" << endl;
@@ -381,16 +350,12 @@ void users_basemenu (void)
     cout << "| 3.Statistics   |" << endl;
     cout << "| 4.Time settings|" << endl;
     cout << "| 5.Exit         |" << endl;
-    cout << "| 6.Delyte user  |" << endl;
+    cout << "| 6.Delete user  |" << endl;
     cout << "+----------------+" << endl;
-
-
 }
 
 void Time_settingsmenu ( int WorkDuration, int BreakDuration)
 {
-    
-
     cout << "+----------------------------+" << endl;
     cout << "|     Time settings menu     |" << endl;
     cout << "+----------------------------+" << endl;
@@ -403,8 +368,6 @@ void Time_settingsmenu ( int WorkDuration, int BreakDuration)
     cout << "| 3.restore settings         |" << endl;
     cout << "| 4.back                     |" << endl;
     cout << "+----------------------------+" << endl;
-
-
 }
 
 void Statistics_menu (int sessionsCompleted,int totalWorkTime,std::string name)
@@ -426,7 +389,6 @@ void Statistics_menu (int sessionsCompleted,int totalWorkTime,std::string name)
     cout << "press something to go back...";
     _getch();
 }
-
 
 //Επιλογές 
 void users_menu_choices(void)//ανακατεύθνση του προγράματος ανάλογα με την επιλογή του χρήστη
@@ -453,8 +415,6 @@ void users_menu_choices(void)//ανακατεύθνση του προγράμα�
         {
             X=0;//Πολύ μεγάλος αριθμός.
         }
-
-
         if(X==1)
         {
             Pomodoro c;
@@ -476,7 +436,6 @@ void users_menu_choices(void)//ανακατεύθνση του προγράμα�
         {
             cout << "Wrong answer" << endl ;
         }
-        
     }
 }
 
@@ -513,8 +472,6 @@ void basemenu_choices(Pomodoro& c)//ανακατεύθνση του προγρά
             cout << "Wrong answer" << endl ;
             break;
         }
-        
-
     }
 }
 
@@ -548,12 +505,8 @@ void Guest_basemenu_choices(Pomodoro& c)//ανακατεύθνση του προ
             cout << "Wrong answer" << endl ;
             break;
         }
-        
-
     }
 }
-
-
 
 //string names
 std::string get_name(void)//εισαγωγή ονόματος με έλεγχο μήκους και ταύτησης 
@@ -570,7 +523,6 @@ std::string get_name(void)//εισαγωγή ονόματος με έλεγχο 
     }
     
     return name;
-
 }
 
 bool check_name(std::string name)//έλενχος ταύτησης ονόματος
@@ -583,7 +535,6 @@ bool check_name(std::string name)//έλενχος ταύτησης ονόματ�
         names.pop();
     }
     return false;
-
 }
 
 int check_number_of_users(void)//έλενχος αριθμού χριστών
@@ -612,7 +563,6 @@ queue<std::string> get_names(void)//εισαγωγή των ονομάτων α�
         names.push(name);
         getline(file,name);
     }
-    
     file.close();
     return names;
 }
@@ -658,7 +608,4 @@ void delete_user(std::string name)
         info.pop();
     }
     file2.close();
-    
-
 }
-
