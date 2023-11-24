@@ -1,17 +1,17 @@
 #include "base.hpp"
 
-//
-Pomodoro::Pomodoro(std::string name):name(name),WorkDuration(1500),BreakDuration(300),sessionsCompleted(0),totalWorkTime(0)
+// κατασκευαστές
+Pomodoro::Pomodoro(std::string name):name(name),WorkDuration(1500),BreakDuration(300),sessionsCompleted(0),totalWorkTime(0)//για την δημιουργία νέου χρήστη
     {
         ofstream file;
-        file.open("DATA.txt",ios::app);
-        file <<endl << name << endl;
-        file << WorkDuration << " " << BreakDuration << " " << sessionsCompleted << " " << totalWorkTime<< "                    ";
+        file.open("DATA.txt",ios::app);//άνοιγμα file
+        file <<endl << name << endl;//εισαγωγή ονόματος
+        file << WorkDuration << " " << BreakDuration << " " << sessionsCompleted << " " << totalWorkTime<< "                    ";//εισαγωγή informasion (αφήνω το καινό στο τέλος διότι αν χρειαστει να επεξεργαστεί τα δεδομένα ο χρήστεις να μήν γράψει πάνω στα επόμενα άν είναι μεγαλύτερα από την αρχική κατάσταση)
         file.flush();
         file.close();
     };
 
-Pomodoro::Pomodoro(int x)
+Pomodoro::Pomodoro(int x)//για το άνοιγμα κάποιου ήδη υπάρχον χρήστη
 {
     ifstream file("DATA.txt");
 
@@ -21,7 +21,7 @@ Pomodoro::Pomodoro(int x)
     int sessionsCompleted ;
     int totalWorkTime ;
 
-    for(int i=1;i<=x;i++)
+    for(int i=1;i<=x;i++)//αναζήτηση του χρήστη
     {
         file >> name;
         file >> WorkDuration;
@@ -29,6 +29,7 @@ Pomodoro::Pomodoro(int x)
         file >> sessionsCompleted;
         file >> totalWorkTime;
     }
+    //μεταφορά informasion στην κλάση
     this->name=name;
     this->WorkDuration=WorkDuration;
     this->BreakDuration=BreakDuration;
@@ -53,7 +54,7 @@ void Pomodoro::startSession(void)
     if (x==' ')
     {
 
-//-------------------------------------------------------        
+//------------------------------------------------------- μετριτής χρόνου με λειτουργία stop και exit        
         
 
     char userInput;
@@ -75,7 +76,7 @@ void Pomodoro::startSession(void)
             remainingTime--;
         }
 
-        if (_kbhit()) {
+        if (_kbhit()) {//αν πατηθει κάποιο κουμπί 
             userInput = _getch();
             if (userInput == 'p') {
                 timerRunning = !timerRunning;
@@ -93,15 +94,9 @@ void Pomodoro::startSession(void)
         
 
 
-
-
-
-
-
-
 //------------------------------------------------------------------------
         
-        if (remainingTime==0)
+        if (remainingTime==0)//αποθήκευση στατηστικών
         {
             add_sessionsCompleted();
             add_totalWorkTime(get_WorkDuration());
@@ -137,7 +132,7 @@ void Pomodoro::startBreak()
         
 
 
-//-------------------------------------------------------        
+//-------------------------------------------------------        μετριτής χρόνου με λειτουργία stop και exit
     char userInput;
     bool timerRunning = true;
     int remainingTime = this->BreakDuration; 
@@ -192,18 +187,18 @@ void Pomodoro::startBreak()
 
 }
 
-void Pomodoro::endSession(int x)
+void Pomodoro::endSession(int x)//αποθήκευση στατηστικών
 {
     this->sessionsCompleted ++;
     this->totalWorkTime += x;
 }
 
-void Pomodoro::getStatistics( void )
+void Pomodoro::getStatistics( void )//εξαγωγή informasion
 {
     Statistics_menu(this->sessionsCompleted, this->totalWorkTime, this->name);
 }
 
-void Pomodoro::Time_settings( void)
+void Pomodoro::Time_settings( void)//ρυθμίσεις χρόνου
 {
 
     
@@ -214,7 +209,7 @@ void Pomodoro::Time_settings( void)
         system("cls"); // Clear the console screen
         Time_settingsmenu(this->WorkDuration, this->BreakDuration);
         x = _getch();
-        switch (x)
+        switch (x)//ανακατεύθινση ανάλογα με την επιλογή του χρήστη
         {
         case '1':
         cout << "WorkDuration:";
@@ -245,7 +240,7 @@ void Pomodoro::Time_settings( void)
             cout << "ok" << endl;
         }
         break;
-       case '3':
+       case '3'://επαναφορά ρυθμίσεων
         this->set_WorkDuration(1500);
         this->set_BreakDuration(300);
         cout << "The settings have reset" << endl;
@@ -346,7 +341,7 @@ void users_menu (queue<std::string> names)
     cout << "+-------------------------------+" << endl;
     cout << "| 1.Guest                       |" << endl;
     cout << "| 2.New User                    |" << endl;
-    while(!names.empty())
+    while(!names.empty())//εμφάνηση ονομάτων από την ουρά του αρχείου 
     {
     cout << "| " << j << "." << names.front() << endl;
     names.pop();
@@ -421,7 +416,7 @@ void Statistics_menu (int sessionsCompleted,int totalWorkTime,std::string name)
     cout << "|     Statistics menu\t\t|" << endl;
     cout << "+-------------------------------+" << endl;
     cout << "|  user:"<<name;
-    if(i<8){cout<<"\t\t\t|"<< endl;}
+    if(i<8){cout<<"\t\t\t|"<< endl;}//ρυθμίζει τα tabs ανάλογα με το μέγεθος του ονόματος 
     else if(i<16){cout<<"\t\t|"<< endl;}
     else if(i<20){cout<<"\t|"<< endl;}
     else {cout<<endl;}
@@ -434,7 +429,7 @@ void Statistics_menu (int sessionsCompleted,int totalWorkTime,std::string name)
 
 
 //Επιλογές 
-void users_menu_choices(void)
+void users_menu_choices(void)//ανακατεύθνση του προγράματος ανάλογα με την επιλογή του χρήστη
 {
     std::string  x;
     int X;
@@ -485,7 +480,7 @@ void users_menu_choices(void)
     }
 }
 
-void basemenu_choices(Pomodoro& c)
+void basemenu_choices(Pomodoro& c)//ανακατεύθνση του προγράματος ανάλογα με την επιλογή του χρήστη
 {
     char  x;
     while (x!='5'&&x!='6')
@@ -512,7 +507,7 @@ void basemenu_choices(Pomodoro& c)
             cout << "Goodbye :)" ;
             break; 
         case '6':
-            delyte_user(c.get_name());
+            delete_user(c.get_name());
             break;
         default:
             cout << "Wrong answer" << endl ;
@@ -523,7 +518,7 @@ void basemenu_choices(Pomodoro& c)
     }
 }
 
-void Guest_basemenu_choices(Pomodoro& c)
+void Guest_basemenu_choices(Pomodoro& c)//ανακατεύθνση του προγράματος ανάλογα με την επιλογή του χρήστη
 {
     char  x;
     while (x!='5')
@@ -561,7 +556,7 @@ void Guest_basemenu_choices(Pomodoro& c)
 
 
 //string names
-std::string get_name(void)
+std::string get_name(void)//εισαγωγή ονόματος με έλεγχο μήκους και ταύτησης 
 {
     std::string name;
 
@@ -578,7 +573,7 @@ std::string get_name(void)
 
 }
 
-bool check_name(std::string name)
+bool check_name(std::string name)//έλενχος ταύτησης ονόματος
 {
     queue<std::string> names;
     names = get_names();
@@ -591,7 +586,7 @@ bool check_name(std::string name)
 
 }
 
-int check_number_of_users(void)
+int check_number_of_users(void)//έλενχος αριθμού χριστών
 {
    queue<std::string> names; 
    names = get_names();
@@ -599,7 +594,7 @@ int check_number_of_users(void)
 }
 
 //files
-queue<std::string> get_names(void)
+queue<std::string> get_names(void)//εισαγωγή των ονομάτων από το αρχείο σε μία ουρά
 {
     queue<std::string> names;
     ifstream file("DATA.txt");
@@ -622,7 +617,7 @@ queue<std::string> get_names(void)
     return names;
 }
 
-void set_information_on_file(std::string name,int WorkDuration,int BreakDuration,int sessionsCompleted, int totalWorkTime)
+void set_information_on_file(std::string name,int WorkDuration,int BreakDuration,int sessionsCompleted, int totalWorkTime)//προσθήκη χρήστη στο αρχείο
 {
     fstream file("DATA.txt",std::ios::in | std::ios::out);
     std::string str;
@@ -635,7 +630,7 @@ void set_information_on_file(std::string name,int WorkDuration,int BreakDuration
     file.close();
 }
 
-void delyte_user(std::string name)
+void delete_user(std::string name)
 {
     ifstream file("DATA.txt");
     queue<std::string> names;

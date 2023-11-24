@@ -1,7 +1,7 @@
-#define CATCH_CONFIG_MAIN
+#define CATCH_CONFIG_MAIN//για να μην χρειάζεται main
 #include "catch.hpp"
 #include "base.hpp"
-
+//έλενχοι εισαγωγής δεδομένων
 TEST_CASE("set_WorkDuration")
 {
     Pomodoro c1;
