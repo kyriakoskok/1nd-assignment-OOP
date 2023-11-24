@@ -645,10 +645,10 @@ void delyte_user(std::string name)
     int i;
     while(getline(file,str))
     {
-        
-        names.push(str);
+        if (!str.empty())
+        {names.push(str);
         getline(file,str);
-        info.push(str);
+        info.push(str);}
     }
     file.close();
     ofstream file2("DATA.txt",ios::trunc|ios::out);
@@ -657,7 +657,7 @@ void delyte_user(std::string name)
     {
         if(names.front()!=name)
         {
-            file2 << names.front() << endl << info.front() << endl;
+            file2 <<endl << names.front() << endl << info.front();
         }
         names.pop();
         info.pop();
